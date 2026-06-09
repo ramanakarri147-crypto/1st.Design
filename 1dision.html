@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My First YouTube Short - Magic Spirograph</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <style>
+        body { 
+            margin: 0; 
+            padding: 0; 
+            background-color: #000; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            overflow: hidden; 
+        }
+        canvas { 
+            border: 2px solid #111; 
+            box-shadow: 0px 0px 50px rgba(0, 255, 242, 0.25); 
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+
+<script>
+    let linesCount = 0;
+    let angle = 0;
+
+    function setup() {
+        createCanvas(400, 700); // పక్కా మొబైల్ 9:16 రేషియో
+        background(0);
+        angleMode(DEGREES);
+        frameRate(25); // నిదానంగా 30 సెకన్లు రన్ అవ్వడానికి
+    }
+
+    function draw() {
+        // 750 లైన్లు (కరెక్ట్ గా 30 సెకన్లు) అవ్వగానే ఆగిపోతుంది
+        if (linesCount >= 750) {
+            noLoop();
+            return;
+        }
+
+        translate(width / 2, height / 2);
+
+        let strokeColor;
+        
+        // --- 0 నుండి 20 సెకన్లు (మొదటి 500 లైన్లు): క్లాసిక్ గోల్డ్ అండ్ వైట్ డిజైన్ ---
+        if (linesCount < 500) {
+            let colors = ["#FFD700", "#FFFFFF"];
+            strokeColor = colors[linesCount % 2];
+            strokeWeight(1.5);
+            drawingContext.shadowBlur = 10;
+            drawingContext.shadowColor = strokeColor;
+        } 
+        // --- 20 నుండి 30 సెకన్లు (కలైమాక్స్ మ్యాజిక్): సడన్ గా బ్రైట్ నియాన్ రెయిన్‌బో లాగా మారుతుంది ---
+        else {
+            colorMode(HSB, 360, 100, 100);
+            let hue = (linesCount * 2) % 360;
+            strokeColor = color(hue, 100, 100);
+            strokeWeight(2.5); // లైన్స్ లావుగా మారి గ్లో పెరుగుతుంది
+            drawingContext.shadowBlur = 25;
+            drawingContext.shadowColor = strokeColor;
+        }
+
+        stroke(strokeColor);
+        noFill();
+
+        // మీ ఇమేజ్ 1 స్టైల్ లో లైన్ అండ్ సర్కిల్ కాంబినేషన్
+        let len = linesCount * 0.45; 
+        rotate(angle);
+        
+        line(0, 0, len, 0);
+        ellipse(len, 0, 30, 30); // గీత చివర ఒక చిన్న మ్యాజిక్ రింగ్ వస్తుంది
+        
+        // ట్విస్ట్ యాంగిల్ - దీనివల్ల డిజైన్ 3D చక్రంలా తిరుగుతుంది
+        angle += 137.5; 
+        linesCount++;
+    }
+</script>
+
+</body>
+</html>
